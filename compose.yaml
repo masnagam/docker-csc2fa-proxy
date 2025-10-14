@@ -9,11 +9,16 @@ services:
       - SYS_ADMIN
     ports:
       - 5980:5980  # novpn
-      - 8118:8118  # proxy
+      - 8118:8118  # privoxy
+    # Variables defined in the `environment` section override ones defined in proxy.env.
     environment:
       TZ: Asia/Tokyo
       # Enabling logging.
       #CSC_LOGGING_OUTPUT: STDOUT
+    # Optional
+    env_file:
+      - path: ./proxy.env
+        required: false
     secrets:
       - server-name
       - server-ip

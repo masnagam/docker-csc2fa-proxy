@@ -4,11 +4,26 @@
 
 ## Configurations
 
+Secrets:
+
 ```shell
 echo vpn.server.name >server_name.txt
 host $(cat server_name.txt) | grep "has address" | awk '{print $NF}' >server_ip.txt
 echo username >username.txt
 echo password >password.txt
+```
+
+Optional variables can be defined in the `proxy.env` file:
+
+```
+# Sleep time to wait for ready to enter the server name (default: 10s).
+SLEEP_FOR_SERVER_NAME=15s
+
+# Sleep time to wait for ready to enter the username (default: 0s).
+SLEEP_FOR_USERNAME=1s
+
+# Sleep time to wait for ready to enter the password (default: 0s).
+SLEEP_FOR_PASSWORD=1s
 ```
 
 ## 2FA
