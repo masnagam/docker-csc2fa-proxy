@@ -1,6 +1,6 @@
-# docker-csc2fa-http-proxy
+# docker-csc2fa-proxy
 
-> Cisco Secure Client (2FA) + Privoxy
+> Cisco Secure Client (2FA) + Proxy
 
 ## Configurations
 
@@ -24,6 +24,11 @@ SLEEP_FOR_USERNAME=1s
 
 # Sleep time to wait for ready to enter the password (default: 0s).
 SLEEP_FOR_PASSWORD=1s
+
+# Launch a SOCKS5 proxy using an SSH dynamic port forwarding connection between the container and
+# the specified remote host instead of launching a Privoxy server.
+SOCKS5_REMOTE_HOST=remote.host
+SOCKS5_REMOTE_USER=user
 ```
 
 ## 2FA
@@ -64,8 +69,12 @@ moment for PIN code to be shown.
 Finally, enter the PIN code on the authenticator and close the dialog on the noVNC screen after the
 authentication finishes successfully.
 
-The [Privoxy] running in the container proxies requests to servers in the private network.  It can
-be accessible with `http://localhost:8118`.
+One of the following proxy running in the container proxies requests to servers in the private network:
+
+* [Privoxy]
+* [SOCKS5] using an SSH dynamic port forwarding
+
+The either can be accessible with `http://localhost:8118`.
 
 ## Technical Notes
 
@@ -107,3 +116,4 @@ If you are looking for an L2TP IPsec-VPN container, see
 [x11vnc]: https://en.wikipedia.org/wiki/X11vnc
 [xdotool]: https://github.com/jordansissel/xdotool
 [Privoxy]: https://www.privoxy.org/
+[SOCKS5]: https://en.wikipedia.org/wiki/SOCKS

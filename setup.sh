@@ -10,6 +10,12 @@ apt-get update
 # for TZ
 apt-get install -y --no-install-recommends tzdata
 
+# tools for debugging purposes
+apt-get install -y dnsutils iproute2 iputils-ping iputils-tracepath
+
+# SOCKS5 proxy
+apt-get install -y --no-install-recommends openssh-client
+
 # http proxy
 apt-get install -y --no-install-recommends privoxy
 
