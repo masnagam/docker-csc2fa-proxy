@@ -1,4 +1,6 @@
-echo "INFO: Start privoxy"
+PROGNAME=$(basename $0)
+
+echo "INFO: $PROGNAME: Start privoxy"
 
 mkdir -p $HOME/privoxy
 cat >$HOME/privoxy/config <<EOF
