@@ -15,7 +15,7 @@ echo password >password.txt
 
 Optional variables can be defined in the `proxy.env` file:
 
-```
+```shell
 # Sleep time to wait for ready to enter the server name (default: 10s).
 SLEEP_FOR_SERVER_NAME=15s
 
@@ -25,8 +25,8 @@ SLEEP_FOR_USERNAME=1s
 # Sleep time to wait for ready to enter the password (default: 0s).
 SLEEP_FOR_PASSWORD=1s
 
-# Launch a SOCKS5 proxy using an SSH dynamic port forwarding connection between the container and
-# the specified remote host instead of launching a Privoxy server.
+# Launch a SOCKS5 proxy using an SSH dynamic port forwarding connection between the
+# container and the specified remote host instead of launching a Privoxy server.
 SOCKS5_REMOTE_HOST=remote.host
 SOCKS5_REMOTE_USER=user
 ```
@@ -69,12 +69,19 @@ moment for PIN code to be shown.
 Finally, enter the PIN code on the authenticator and close the dialog on the noVNC screen after the
 authentication finishes successfully.
 
-One of the following proxy running in the container proxies requests to servers in the private network:
+One of the following proxy running in the container proxies requests to servers in the private
+network:
 
 * [Privoxy]
 * [SOCKS5] using an SSH dynamic port forwarding
 
 The either can be accessible with `http://localhost:8118`.
+
+The `proxy` service does **NOT** restart automatically when restarting `dockerd`.  This is
+intentional.  You have to create a startup script if you want to restart the `proxy` service
+automatically.  Be careful if you use a SOCKS5 proxy which requires that the `SSH_AUTH_SOCK`
+environment variable is available.  In this case, the `proxy` service must start after `ssh-agent`
+starts and the SSH key is added by `ssh-add`.
 
 ## Technical Notes
 

@@ -3,7 +3,7 @@ services:
     image: $USER/csc2fa-proxy
     build: .
     init: true
-    restart: unless-stopped
+    restart: 'no'
     cap_add:
       - NET_ADMIN
       - SYS_ADMIN
