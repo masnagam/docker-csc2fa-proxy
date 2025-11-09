@@ -1,6 +1,6 @@
 services:
   proxy:
-    image: $USER/csc2fa-http-proxy
+    image: $USER/csc2fa-proxy
     build: .
     init: true
     restart: unless-stopped

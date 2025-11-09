@@ -53,7 +53,7 @@ See [setup.sh](./setup.sh) for details.
 Create a container for the `proxy` service:
 
 ```shell
-# $USER/csc2fa-http-proxy image will be created automatically if it doesn't exist.
+# $USER/csc2fa-proxy image will be created automatically if it doesn't exist.
 # `docker compose build` builds it manually.
 # See compose.yaml for details.
 docker compose up -d
