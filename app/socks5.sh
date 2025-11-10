@@ -20,4 +20,4 @@ done
 
 echo "INFO: $PROGNAME: Establish a dynamic port forwarding connection to $SOCKS5_REMOTE_HOST"
 # TODO: use known_hosts for safety
-exec ssh -o StrictHostKeyChecking=no -N -D 0.0.0.0:8118 $SOCKS5_REMOTE_USER@$SOCKS5_REMOTE_HOST
+exec autossh -o StrictHostKeyChecking=no -N -D 0.0.0.0:8118 $SOCKS5_REMOTE_USER@$SOCKS5_REMOTE_HOST
