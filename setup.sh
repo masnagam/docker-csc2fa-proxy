@@ -11,7 +11,7 @@ apt-get update
 apt-get install -y --no-install-recommends tzdata
 
 # tools for debugging purposes
-apt-get install -y dnsutils iproute2 iputils-ping iputils-tracepath
+apt-get install -y dnsutils iproute2 iputils-ping iputils-tracepath tcpdump
 
 # SOCKS5 proxy
 apt-get install -y --no-install-recommends autossh openssh-client

@@ -83,6 +83,29 @@ automatically.  Be careful if you use a SOCKS5 proxy which requires that the `SS
 environment variable is available.  In this case, the `proxy` service must start after `ssh-agent`
 starts and the SSH key is added by `ssh-add`.
 
+### Collecting a DART bundle
+
+A GUI application to collect a DART bundle can be launched in the following steps:
+
+1. Open a popup menu by a right-click
+2. Select the `Terminal emulator`
+3. Run `/opt/cisco/secureclient/dart/dartui` on the terminal
+
+A DART bundle will be created in `/home/ubuntu/Desktop`.  It can be copied from the container to
+the host machine by the following command:
+
+```shell
+docker compose cp proxy:/home/ubuntu/Desktop/DARTBundle_<date_time>.zip DARTBundle_<data_time>.zip
+```
+
+### Capturing packets
+
+The Docker image contains `tcpdump`.
+
+```shell
+docker compose exec proxy tcpdump -i cscotun0 >cscotun0.pcap
+```
+
 ## Technical Notes
 
 `LocalLanAccess` must be enabled in `/opt/cisco/secureclient/vpn/.anyconnect_global` in order to
