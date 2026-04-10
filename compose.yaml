@@ -8,8 +8,12 @@ services:
       - NET_ADMIN
       - SYS_ADMIN
     ports:
-      - 5980:5980  # novpn
-      - 8118:8118  # privoxy
+      # nonvc
+      - '127.0.0.1:5980:5980'
+      - '[::1]:5980:5980'
+      # proxy
+      - '127.0.0.1:8118:8118'
+      - '[::1]:8118:8118'
     volumes:
       - ${SSH_AUTH_SOCK:-/dev/null}:/ssh_agent.sock
     # Variables defined in the `environment` section override ones defined in proxy.env.
