@@ -19,6 +19,9 @@ apt-get install -y --no-install-recommends autossh openssh-client
 # http proxy
 apt-get install -y --no-install-recommends privoxy
 
+# port forwarding
+apt-get install -y --no-install-recommends socat
+
 # x11 window manager
 apt-get install -y --no-install-recommends gosu openbox python3-xdg xvfb xterm
 

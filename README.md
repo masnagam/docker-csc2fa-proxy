@@ -24,11 +24,28 @@ SLEEP_FOR_USERNAME=1s
 
 # Sleep time to wait for ready to enter the password (default: 0s).
 SLEEP_FOR_PASSWORD=1s
+```
 
+### Launch a SOCKS5 proxy instead of a Privoxy server
+
+Add the following variables in the `proxy.env` file:
+
+```shell
 # Launch a SOCKS5 proxy using an SSH dynamic port forwarding connection between the
 # container and the specified remote host instead of launching a Privoxy server.
-SOCKS5_REMOTE_HOST=remote.host
+SOCKS5_REMOTE_HOST=<host name or ip address>
 SOCKS5_REMOTE_USER=user
+```
+
+### Relay packets to a proxy server in the remote network by using socat
+
+Add the following variables in the `proxy.env` file:
+
+```shell
+SOCAT_REMOTE_HOST=<host name or ip address>
+SOCAT_REMOTE_PORT=8080
+# optional
+SOCAT_EXTRA_OPTIONS=-d4
 ```
 
 ## 2FA

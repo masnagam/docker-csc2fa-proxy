@@ -2,6 +2,9 @@ PROXY_SH=/app/privoxy.sh
 if [ -n "$SOCKS5_REMOTE_HOST" ]
 then
   PROXY_SH=/app/socks5.sh
+elif [ -n "$SOCAT_REMOTE_HOST" ]
+then
+  PROXY_SH=/app/socat.sh
 fi
 
 mkdir -p $HOME/.config/openbox
