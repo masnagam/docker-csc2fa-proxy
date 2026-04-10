@@ -37,7 +37,7 @@ SOCKS5_REMOTE_HOST=<host name or ip address>
 SOCKS5_REMOTE_USER=user
 ```
 
-### Relay packets to a proxy server in the remote network by using socat
+### Relay packets to a proxy server in the remote network by using `socat`
 
 Add the following variables in the `proxy.env` file:
 
@@ -90,9 +90,11 @@ One of the following proxy running in the container proxies requests to servers 
 network:
 
 * [Privoxy]
+* Forwarding packets to a remote proxy server by using `socat`
 * [SOCKS5] using an SSH dynamic port forwarding
 
-The either can be accessible with `http://localhost:8118`.
+The first two can be accessible with `http://localhost:8118`.  The last one can be accessible with
+`socks5h://localhost:8118` (or other SOCKS-family URL schemes depending on applications to use).
 
 The `proxy` service does **NOT** restart automatically when restarting `dockerd`.  This is
 intentional.  You have to create a startup script if you want to restart the `proxy` service
