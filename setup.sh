@@ -30,7 +30,7 @@ apt-get install -y --no-install-recommends gosu openbox python3-xdg xvfb xterm
 apt-get install -y --no-install-recommends novnc x11vnc
 
 # for automatic login
-apt-get install -y --no-install-recommends xdotool
+apt-get install -y --no-install-recommends xdotool at-spi2-core python3-pyatspi
 
 # for debugging purposes
 apt-get install -y --no-install-recommends curl
