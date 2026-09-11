@@ -24,14 +24,19 @@ def log(msg):
     print("INFO: vpn.py: %s" % msg, flush=True)
 
 
-def parse_seconds(value):
-    return float(value.rstrip("s") or 0)
+def extra_sleep(name):
+    value = os.environ.get(name, "0s")
+    try:
+        return float(value.rstrip("s"))
+    except ValueError:
+        log("WARN: invalid %s value %r; using 0s" % (name, value))
+        return 0.0
 
 
 # Extra buffers for environments that need more settling time.
-SLEEP_FOR_SERVER_NAME = parse_seconds(os.environ.get("SLEEP_FOR_SERVER_NAME", "0s"))
-SLEEP_FOR_USERNAME = parse_seconds(os.environ.get("SLEEP_FOR_USERNAME", "0s"))
-SLEEP_FOR_PASSWORD = parse_seconds(os.environ.get("SLEEP_FOR_PASSWORD", "0s"))
+SLEEP_FOR_SERVER_NAME = extra_sleep("SLEEP_FOR_SERVER_NAME")
+SLEEP_FOR_USERNAME = extra_sleep("SLEEP_FOR_USERNAME")
+SLEEP_FOR_PASSWORD = extra_sleep("SLEEP_FOR_PASSWORD")
 
 
 def read_secret(name):
@@ -51,7 +56,7 @@ def each_app():
 
 
 def each_node(root, depth=0):
-    if depth > 10:
+    if depth > 20:  # guard against runaway recursion, not a correctness limit
         return
     yield root
     for i in range(root.childCount):
@@ -104,16 +109,34 @@ def xdotool(*args):
     subprocess.run(["xdotool", *args], check=True)
 
 
-def type_into(node, text):
+def focus(node):
+    """Focus *node*, returning True only once the focused state is observed."""
     try:
-        node.queryComponent().grabFocus()
-        time.sleep(0.1)
+        if not node.queryComponent().grabFocus():
+            return False
+        deadline = time.monotonic() + 2
+        while time.monotonic() < deadline:
+            if pyatspi.STATE_FOCUSED in node.getState().getStates():
+                return True
+            time.sleep(POLL_INTERVAL)
     except Exception:
+        pass
+    return False
+
+
+def type_into(node, text):
+    if not focus(node):
         # Fall back to activating the window and typing into its focused field.
-        log("WARN: grabFocus failed; activating the window instead")
-        xdotool("search", "--sync", "--onlyvisible", "--name", LOGIN_DIALOG,
-                "windowactivate", "--sync")
-    xdotool("type", "--clearmodifiers", "--", text)
+        log("WARN: could not focus the target element; activating the window instead")
+        try:
+            subprocess.run(["xdotool", "search", "--sync", "--onlyvisible",
+                            "--name", LOGIN_DIALOG, "windowactivate", "--sync"],
+                           timeout=10, check=True)
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
+            log("WARN: could not activate the login dialog; typing anyway")
+    # Pass the text via stdin so secrets stay out of the process list.
+    subprocess.run(["xdotool", "type", "--clearmodifiers", "--file", "/dev/stdin"],
+                   input=text.encode(), check=True)
 
 
 def press_return():
