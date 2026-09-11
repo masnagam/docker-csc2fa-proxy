@@ -60,11 +60,13 @@ Install an authenticator into your device:
 
 ## Cisco Secure Client
 
-Copy an archive file of [Cisco Secure Client 5] in this folder as `package.tar.gz`.  It must
-contains the following scripts:
+Copy an archive file of [Cisco Secure Client 5] in this folder as `package.tar.gz`.  Both the
+legacy archive containing `<dir>/vpn/vpn_install.sh` and `<dir>/dart/dart_install.sh`, and the
+newer archive containing `.deb` files are supported.
 
-* `<dir>/vpn/vpn_install.sh`
-* `<dir>/dart/dart_install.sh`
+The package format is detected automatically.  For the newer archive, rename it to
+`package.tar.gz` before building.  The VPN and DART packages are installed to match the legacy
+setup.
 
 See [setup.sh](./setup.sh) for details.
 
