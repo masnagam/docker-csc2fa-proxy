@@ -13,18 +13,8 @@ echo username >username.txt
 echo password >password.txt
 ```
 
-Optional variables can be defined in the `proxy.env` file:
-
-```shell
-# Sleep time to wait for ready to enter the server name (default: 10s).
-SLEEP_FOR_SERVER_NAME=15s
-
-# Sleep time to wait for ready to enter the username (default: 0s).
-SLEEP_FOR_USERNAME=1s
-
-# Sleep time to wait for ready to enter the password (default: 0s).
-SLEEP_FOR_PASSWORD=1s
-```
+Credentials are entered via AT-SPI: each step waits until the target UI
+element actually exists and is visible, so no fixed sleep is required.
 
 ### Launch a SOCKS5 proxy instead of a Privoxy server
 
@@ -84,9 +74,9 @@ docker compose up -d
 The container starts an [Openbox] session.  The screen can be accessible by using a modern web
 browser via [noVNC] and [x11vnc].
 
-Open `http://localhost:5980/vnc_auto.html` in your web browser.  You can see that [xdotool] will
-enter texts on the Cisco Secure Client window and dialog automatically instead of you.  Wait a
-moment for PIN code to be shown.
+Open `http://localhost:5980/vnc_auto.html` in your web browser.  You can see that credentials are
+entered on the Cisco Secure Client window and dialog automatically instead of you.  Wait a moment
+for PIN code to be shown.
 
 Finally, enter the PIN code on the authenticator and close the dialog on the noVNC screen after the
 authentication finishes successfully.
