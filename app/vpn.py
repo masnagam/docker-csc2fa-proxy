@@ -27,21 +27,6 @@ def log(msg):
     print("INFO: vpn.py: %s" % msg, flush=True)
 
 
-def extra_sleep(name):
-    value = os.environ.get(name, "0s")
-    try:
-        return float(value.rstrip("s"))
-    except ValueError:
-        log("WARN: invalid %s value %r; using 0s" % (name, value))
-        return 0.0
-
-
-# Extra buffers for environments that need more settling time.
-SLEEP_FOR_SERVER_NAME = extra_sleep("SLEEP_FOR_SERVER_NAME")
-SLEEP_FOR_USERNAME = extra_sleep("SLEEP_FOR_USERNAME")
-SLEEP_FOR_PASSWORD = extra_sleep("SLEEP_FOR_PASSWORD")
-
-
 def read_secret(name):
     with open("/run/secrets/" + name) as f:
         return f.read().strip()
@@ -175,7 +160,6 @@ wait_for("the ready-to-connect status",
          lambda: find_node(main, lambda n: n.getRoleName() == "status bar"
                            and (n.name or "").startswith(READY_STATUS)),
          timeout=60)
-time.sleep(SLEEP_FOR_SERVER_NAME)
 
 entry = wait_for("the server address entry",
                  lambda: find_node(main, lambda n: n.getRoleName() == "text"),
@@ -208,7 +192,6 @@ def find_login_dialog():
 
 dialog = wait_for("the login dialog", find_login_dialog, timeout=90)
 
-time.sleep(SLEEP_FOR_USERNAME)
 username_field = wait_for("the username field",
                           lambda: find_node(dialog, lambda n: n.getRoleName() in ("text", "entry")),
                           timeout=60)
@@ -216,7 +199,6 @@ log("Entering the username...")
 type_into(username_field, USERNAME, vpnui.pid)
 press_return()
 
-time.sleep(SLEEP_FOR_PASSWORD)
 password_field = wait_for("the password field",
                           lambda: find_node(dialog, lambda n: n.getRoleName() == "password text"),
                           timeout=60)

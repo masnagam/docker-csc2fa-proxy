@@ -13,18 +13,8 @@ echo username >username.txt
 echo password >password.txt
 ```
 
-Optional variables can be defined in the `proxy.env` file:
-
 Credentials are entered via AT-SPI: each step waits until the target UI
 element actually exists and is visible, so no fixed sleep is required.
-The following variables add extra buffers on top of that if your
-environment needs more settling time (all default to `0s`):
-
-```shell
-SLEEP_FOR_SERVER_NAME=0s
-SLEEP_FOR_USERNAME=0s
-SLEEP_FOR_PASSWORD=0s
-```
 
 ### Launch a SOCKS5 proxy instead of a Privoxy server
 
