@@ -91,6 +91,26 @@ network:
 The first two can be accessible with `http://localhost:8118`.  The last one can be accessible with
 `socks5h://localhost:8118` (or other SOCKS-family URL schemes depending on applications to use).
 
+For a container on a Linux bridge network, the proxy port is also published on
+`DOCKER_HOST_GATEWAY`, which defaults to `172.17.0.1`. To use the default bridge gateway
+automatically when starting the proxy, run:
+
+```shell
+DOCKER_HOST_GATEWAY="${DOCKER_HOST_GATEWAY:-$(docker network inspect bridge --format '{{(index .IPAM.Config 0).Gateway}}')}" \
+  docker compose up -d
+```
+
+In the client container, map `host.docker.internal` to the host gateway and use
+`http://host.docker.internal:8118` (or `socks5h://host.docker.internal:8118` for SOCKS5):
+
+```yaml
+extra_hosts:
+  - "host.docker.internal:host-gateway"
+```
+
+Set `DOCKER_HOST_GATEWAY` to match if the Docker daemon uses a custom host-gateway address. A
+container using `--network=host` can continue to use `http://127.0.0.1:8118`.
+
 The `proxy` service does **NOT** restart automatically when restarting `dockerd`.  This is
 intentional.  You have to create a startup script if you want to restart the `proxy` service
 automatically.  Be careful if you use a SOCKS5 proxy which requires that the `SSH_AUTH_SOCK`
